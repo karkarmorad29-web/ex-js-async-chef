@@ -6,10 +6,58 @@
  * - Grstire gli errori con try/catch e restituire un messaggio di errore in caso di fallimento.
  */
 
-async function getChefBirthday(id) {
+/*async function getChefBirthday(id) {
     try {
         // 1. Recuperare la recetta da https://dummyjson.com/recipes/{id}
         const recipeResponse = await fetch(`https://dummyjson.com/recipes/${id}`);
+
+        if (!recipeResponse.ok) {
+            throw new Error(`Errore nella richiesta della ricetta: ${recipeResponse.status}`);
+        }
+
+        const recipeData = await recipeResponse.json();
+
+        // 2. Estrarre la userId dello chef dalla ricetta
+        const userId = recipeData.userId;
+
+        // 3. Recuperare i dettagli dello chef da https://dummyjson.com/users/{userId}
+        const userResponse = await fetch(`https://dummyjson.com/users/${userId}`);
+
+        if (!userResponse.ok) {
+            throw new Error(`Errore nella richiesta dell'utente: ${userResponse.status}`);
+        }
+
+        const userData = await userResponse.json();
+
+        // 4. Restituire la data di nascita dello chef
+        return userData.birthDate;
+    } catch (error) {
+        // Gestire gli errori e restituire un messaggio di errore
+        console.error("Si è verificato un errore:", error.message);
+        throw error; // Rilancia l'errore per permettere al chiamante di gestirlo
+    }
+}
+
+// Esempio di utilizzo
+getChefBirthday(1)
+    .then(birthday => console.log("La data di nascita dello chef è:", birthday))
+    .catch(error => console.error("Errore:", error.message));
+*/
+
+/**
+ * Ottenere la data di nascita dello chef di una specifica ricetta.
+ * @param {number} id - L'id della ricetta.
+ * @return {Promise<string>} - Una stringa con la data formattata o un messaggio di errore.
+ */
+
+async function getChefBirthday(id) {
+    try {
+
+        // 1. Recuperare la ricetta.
+        const recipeResponse = await fetch(`https://dummyjson.com/${id}`);
+
+        // Bonus: Gestire errori a 'cascata'.
+        // Se la risposta non è ok, lancia un errore.
 
         if (!recipeResponse.ok) {
             throw new Error(`Errore nella richiesta della ricetta: ${recipeResponse.status}`);
